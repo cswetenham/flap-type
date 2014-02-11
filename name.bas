@@ -11,7 +11,7 @@ endasm
 //the program starts here on NES boot (see footer)
 goto start
 myname:
-	data "YOUR NAME HERE",0
+	data "FLAP [\\ FLAP ]^",0
 
 start:
 	gosub vwait
@@ -31,12 +31,14 @@ load_palette:
 	//set the PPU start address (background color 0)
 	set 8198 $3f
 	set 8198 0
-	set 8199 $0e //set base color black
-	set 8199 $30
+	set 8199 $30 // set base color
+	set 8199 $0E // set color 1
+	set 8199 $2D // set color 2
+	set 8199 $10 // set color 3
 	//set the PPU start address (foreground color 1)
 	set 8198 $3f
 	set 8198 $11
-	set 8199 $30 //set fg color 1 white
+	set 8199 $30 // set fg color 1 white
 	return	
 
 //write your name into the background
