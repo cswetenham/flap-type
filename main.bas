@@ -19,7 +19,7 @@ init_vars:
 	set b_pressed 0
 	set a_inc 0
 	set b_inc 0
-	set spritenum 91
+	set spritenum 107
 	set spritex 128
 	set spritey 120
 	return
@@ -48,8 +48,8 @@ joy_handler:
 	set spritey - spritey joy1up
 	// set spritenum + spritenum a_inc
 	// set spritenum - spritenum b_inc
-  // 91 if unpressed, 93 if pressed 
-  set spritenum + 91 << a_pressed 1 
+  // 107 if unpressed, 109 if pressed 
+  set spritenum + 107 << a_pressed 1 
 	if joy1start = 1 then
 		set spritex 128
 		set spritey 120
