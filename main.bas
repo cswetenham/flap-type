@@ -49,6 +49,7 @@ joy_handler:
   // set spritey + spritey joy1down
   // set spritey - spritey joy1up
   set spritey + spritey speed_y
+  if spritey > 240 goto start
   // 107 if unpressed, 109 if pressed 
   set spritenum + 107 << a_held 1 
   if joy1start = 1 then
