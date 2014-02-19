@@ -1,90 +1,92 @@
 //the program starts here on NES boot (see footer)
 start:
-	gosub vwait
-	set $2000 %00000000
-	set $2001 %00011100 //sprites and bg visible, no sprite clipping
-	gosub init_vars
-	gosub vwait
-	gosub load_palette
+  gosub vwait
+  set $2000 %00000000
+  set $2001 %00011100 //sprites and bg visible, no sprite clipping
+  gosub init_vars
+  gosub vwait
+  gosub load_palette
 //the main program loop
 mainloop:
-	gosub joy_handler
-	gosub vwait
-	gosub drawstuff
-	goto mainloop
+  gosub joy_handler
+  gosub vwait
+  gosub drawstuff
+  goto mainloop
 
 //set default sprite location
 init_vars:
-	set a_pressed 0
-	set b_pressed 0
-	set a_inc 0
-	set b_inc 0
-	set spritenum 107
-	set spritex 128
-	set spritey 120
-	return
+  set a_pressed 0
+  set b_pressed 0
+  set spritenum 107
+  set spritex 128
+  set spritey 120
+  set speed_y 0
+  set frame_count 0
+  return
 
 // Routine to draw a sprite
 drawstuff:
-	set $2003 0 // Sprite memory loc 0
-	set $2004 spritey // Y
-	set $2004 spritenum // Tile number
-	set $2004 0 // Attrib
-	set $2004 spritex // X
+  set $2003 0 // Sprite memory loc 0
+  set $2004 spritey // Y
+  set $2004 spritenum // Tile number
+  set $2004 0 // Attrib
+  set $2004 spritex // X
 
-	set $2004 spritey // Y
-	set $2004 + spritenum 1 // Tile number
-	set $2004 0 // Attrib
-	set $2004 + spritex 8 // X
-	return
+  set $2004 spritey // Y
+  set $2004 + spritenum 1 // Tile number
+  set $2004 0 // Attrib
+  set $2004 + spritex 8 // X
+  return
 
 //move sprite based on joystick input
 joy_handler:
-	gosub joystick1
-	gosub incrementer
-	set spritex + spritex joy1right
-	set spritex - spritex joy1left
-	set spritey + spritey joy1down
-	set spritey - spritey joy1up
-	// set spritenum + spritenum a_inc
-	// set spritenum - spritenum b_inc
+  gosub joystick1
+  gosub incrementer
+  set spritex + spritex joy1right
+  set spritex - spritex joy1left
+  set spritey + spritey joy1down
+  set spritey + spritey speed_y
+  set spritey - spritey joy1up
   // 107 if unpressed, 109 if pressed 
   set spritenum + 107 << a_pressed 1 
-	if joy1start = 1 then
-		set spritex 128
-		set spritey 120
+  if joy1start = 1 then
+    set spritex 128
+    set spritey 120
   endif
-	return
+  return
 
-//handle press and release of A/B buttons
+// Handle press and release of A/B buttons
 incrementer:
-	//handle A button
-	set a_inc 0
-	if joy1a = 0 set a_pressed 0
-	if joy1a = 1 if a_pressed = 0 then
-		set a_pressed 1
-		if spritenum < 92 set a_inc 1
-	endif
-	//handle B button
-	set b_inc 0
-	if joy1b = 0 set b_pressed 0
-	if joy1b = 1 if b_pressed = 0 then
-		set b_pressed 1
-		if spritenum > 65 set b_inc 1
-	endif
-	return
+  // Handle A button
+  if joy1a = 0 set a_pressed 0
+  if joy1a = 1 if a_pressed = 0 then
+    set a_pressed 1
+  endif
+  // Handle B button
+  if joy1b = 0 set b_pressed 0
+  if joy1b = 1 if b_pressed = 0 then
+    set b_pressed 1
+  endif
+  // Physics!!
+  if speed_y < 8 then
+    if & frame_count 7 = 0 then
+      set speed_y + speed_y 1
+    endif
+  endif
+  set frame_count + frame_count 1
+  return
 
 //load the colors
 load_palette:
-	//set the PPU start address (background color 0)
-	set $2006 $3f
-	set $2006 0
-	set $2007 $0e // Set base color black
-	//set the PPU start address (foreground color 1)
-	set $2006 $3f
-	set $2006 $11
-	set $2007 $10 // Set fg color 1 light grey
+  //set the PPU start address (background color 0)
+  set $2006 $3f
+  set $2006 0
+  set $2007 $0e // Set base color black
+  //set the PPU start address (foreground color 1)
+  set $2006 $3f
+  set $2006 $11
+  set $2007 $10 // Set fg color 1 light grey
   set $2007 $11 // Set fg color 2 sexy blue
   set $2007 $0C // Set fg color 3 dark grey
-	return	
+  return
 

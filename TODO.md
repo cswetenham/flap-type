@@ -1,8 +1,5 @@
 # FLAP-TYPE TODO
 
-- Render both parts of ship (two sprites, index 0 and 1)
-- Draw proper updated ship into BMP
-- Set correct palette for ship
 - Gravity
 - Detect OOB and reset
 - Count and render 'best score'
