@@ -79,10 +79,12 @@ load_palette:
 	//set the PPU start address (background color 0)
 	set $2006 $3f
 	set $2006 0
-	set $2007 $0e //set base color black
+	set $2007 $0e // Set base color black
 	//set the PPU start address (foreground color 1)
 	set $2006 $3f
 	set $2006 $11
-	set $2007 $30 //set fg color 1 white
+	set $2007 $10 // Set fg color 1 light grey
+  set $2007 $11 // Set fg color 2 sexy blue
+  set $2007 $0C // Set fg color 3 dark grey
 	return	
 
