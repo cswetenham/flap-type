@@ -46,12 +46,14 @@ joy_handler:
 	set spritex - spritex joy1left
 	set spritey + spritey joy1down
 	set spritey - spritey joy1up
-	set spritenum + spritenum a_inc
-	set spritenum - spritenum b_inc
+	// set spritenum + spritenum a_inc
+	// set spritenum - spritenum b_inc
+  // 91 if unpressed, 93 if pressed 
+  set spritenum + 91 << a_pressed 1 
 	if joy1start = 1 then
 		set spritex 128
 		set spritey 120
-		endif
+  endif
 	return
 
 //handle press and release of A/B buttons
@@ -61,15 +63,15 @@ incrementer:
 	if joy1a = 0 set a_pressed 0
 	if joy1a = 1 if a_pressed = 0 then
 		set a_pressed 1
-		if spritenum < 92  set a_inc 1
-		endif
+		if spritenum < 92 set a_inc 1
+	endif
 	//handle B button
 	set b_inc 0
 	if joy1b = 0 set b_pressed 0
 	if joy1b = 1 if b_pressed = 0 then
 		set b_pressed 1
-		if spritenum > 65  set b_inc 1
-		endif
+		if spritenum > 65 set b_inc 1
+	endif
 	return
 
 //load the colors
