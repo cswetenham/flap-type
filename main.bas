@@ -19,7 +19,7 @@ init_vars:
 	set b_pressed 0
 	set a_inc 0
 	set b_inc 0
-	set spritenum 65
+	set spritenum 91
 	set spritex 128
 	set spritey 120
 	return
