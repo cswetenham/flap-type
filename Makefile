@@ -1,3 +1,11 @@
+.PHONY: clean all run
+
+run: out.nes
+	fceux out.nes
+
+clean:
+	rm *.nes *.asm *.chr
+
 all: out.nes
 
 out.nes: out.asm
