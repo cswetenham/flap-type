@@ -17,8 +17,10 @@ mainloop:
 init_vars:
   set a_pressed 0
   set b_pressed 0
+  set a_held 0
+  set b_held 0
   set spritenum 107
-  set spritex 128
+  set spritex 16
   set spritey 120
   set speed_y 0
   set frame_count 0
@@ -42,13 +44,13 @@ drawstuff:
 joy_handler:
   gosub joystick1
   gosub incrementer
-  set spritex + spritex joy1right
-  set spritex - spritex joy1left
-  set spritey + spritey joy1down
+  // set spritex + spritex joy1right
+  // set spritex - spritex joy1left
+  // set spritey + spritey joy1down
+  // set spritey - spritey joy1up
   set spritey + spritey speed_y
-  set spritey - spritey joy1up
   // 107 if unpressed, 109 if pressed 
-  set spritenum + 107 << a_pressed 1 
+  set spritenum + 107 << a_held 1 
   if joy1start = 1 then
     set spritex 128
     set spritey 120
@@ -58,21 +60,27 @@ joy_handler:
 // Handle press and release of A/B buttons
 incrementer:
   // Handle A button
-  if joy1a = 0 set a_pressed 0
-  if joy1a = 1 if a_pressed = 0 then
+  set a_pressed 0
+  if joy1a = 0 set a_held 0
+  if joy1a = 1 if a_held = 0 then
     set a_pressed 1
+    set a_held 1
   endif
   // Handle B button
-  if joy1b = 0 set b_pressed 0
-  if joy1b = 1 if b_pressed = 0 then
+  set b_pressed 0
+  if joy1b = 0 set b_held 0
+  if joy1b = 1 if b_held = 0 then
     set b_pressed 1
+    set b_held 1
   endif
   // Physics!!
-  if speed_y < 8 then
-    if & frame_count 7 = 0 then
-      set speed_y + speed_y 1
-    endif
+  if & frame_count 7 = 0 then
+    // Extra case because negative numbers
+    if speed_y < 8   set speed_y + speed_y 1
+    if speed_y > 127 set speed_y + speed_y 1
   endif
+  if a_pressed = 1 set speed_y 252 // -4
+  if b_pressed = 1 set speed_y 252 // -4
   set frame_count + frame_count 1
   return
 

@@ -1,9 +1,7 @@
 # FLAP-TYPE TODO
 
-- Gravity
 - Detect OOB and reset
 - Count and render 'best score'
-- Flap on A/B
 - Draw background of some kind (have stars?)
 - Render background
 - Scroll background
