@@ -24,13 +24,18 @@ init_vars:
 	set spritey 120
 	return
 
-//routine to draw a sprite
+// Routine to draw a sprite
 drawstuff:
-	set $2003 0 //sprite memory loc 0
-	set $2004 spritey //y
-	set $2004 spritenum //tile number
-	set $2004 0 //attrib
-	set $2004 spritex //x
+	set $2003 0 // Sprite memory loc 0
+	set $2004 spritey // Y
+	set $2004 spritenum // Tile number
+	set $2004 0 // Attrib
+	set $2004 spritex // X
+
+	set $2004 spritey // Y
+	set $2004 + spritenum 1 // Tile number
+	set $2004 0 // Attrib
+	set $2004 + spritex 8 // X
 	return
 
 //move sprite based on joystick input
