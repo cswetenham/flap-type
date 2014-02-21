@@ -36,12 +36,12 @@ render:
   // 107 if unpressed, 109 if pressed 
   set spritenum + 107 << a_held 1 
   
-  set $2003 0 // Sprite memory loc 0
+  set $2003 4 // Location for sprite 1 (4 bytes per attrib entry)
   set $2004 spritey // Y
   set $2004 spritenum // Tile number
   set $2004 0 // Attrib
   set $2004 spritex // X
-
+  // Now at loc for sprite 1
   set $2004 spritey // Y
   set $2004 + spritenum 1 // Tile number
   set $2004 0 // Attrib
