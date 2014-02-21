@@ -1,6 +1,5 @@
 # FLAP-TYPE TODO
 
-- Clean up sections of code (more subprocedures) 
 - Draw background of some kind (have stars?)
 - Render background
 - Scroll background

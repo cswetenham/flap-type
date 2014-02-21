@@ -6,7 +6,7 @@ run: out.nes
 	fceux out.nes
 
 clean:
-	rm *.nes *.asm *.chr
+	rm -f *.nes *.asm *.chr
 
 out.nes: out.asm
 	nesasm out.asm

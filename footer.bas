@@ -1,11 +1,10 @@
-
-//file footer
+// File footer
 asm
-;//jump table points to NMI, Reset, and IRQ start points
+; Jump table points to NMI, Reset, and IRQ start points
 	.bank 1
 	.org $fffa
 	.dw start, start, start
-;//include CHR ROM
+; Include CHR ROM
 	.bank 2
 	.org $0000
 	.incbin "ascii.chr"
