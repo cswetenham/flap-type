@@ -44,7 +44,7 @@ render:
   set $2003 4 // Location for sprite 1 (4 bytes per attrib entry)
   // Every time we write to $2004 the address is incremented by 1 byte 
   // Render both player tiles
-  set $2004 player_y // Y
+  set $2004 player_y // Y - actually Y-1, but impossible to render in 1st line
   set $2004 player_sprite_idx // Tile number
   set $2004 0 // Attrib
   set $2004 player_x // X
@@ -114,6 +114,34 @@ update:
   // This time unsigned nums are in our favour
   // If out of bounds, restart 
   if player_y > 240 goto start
+
+  // Okay, collision detection
+
+  // Player box:
+  // player.left = player_x
+  // player.right = player_x + 15
+  // player.top = player_y
+  // player.bottom = player_y + 7
+
+  // Enemy box:
+  // enemy.left = enemy_x
+  // enemy.right = enemy_x + 15
+  // enemy.top = enemy_y
+  // enemy.bottom = enemy_y + 15
+
+  // Bounding box test: try to find a separating axis
+  // if player.right < enemy.left goto no_collision
+  if + player_x 15 < enemy_x goto no_collision
+  // if enemy.right < player.left goto no_collision
+  if + enemy_x 15 < player_x goto no_collision 
+  // if player.bottom < enemy.top goto no_collision
+  if + player_y 7 < enemy_y goto no_collision
+  // if enemy.bottom < player.top goto no_collision
+  if + enemy_y 15 < player_y goto no_collision
+  // else collision
+  goto start
+
+no_collision:
   // Update frame count
   set frame_count + frame_count 1
   return
