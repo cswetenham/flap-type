@@ -28,9 +28,11 @@ init_vars:
   set enemy_sprite_idx 96
   set player_x 16
   set player_y 120
-  set player_speed_y 0
-  set enemy_x 180
+  set player_dy 0
+  set enemy_x 240
   set enemy_y 120
+  set enemy_dx 255 // -1
+  set enemy_dy 0
   set frame_count 0
   return
 
@@ -99,14 +101,16 @@ update:
   // Apply gravity every 8th frame 
   if & frame_count 7 = 0 then
     // Extra case because negative numbers
-    if player_speed_y < 8   set player_speed_y + player_speed_y 1
-    if player_speed_y > 127 set player_speed_y + player_speed_y 1
+    if player_dy < 8   set player_dy + player_dy 1
+    if player_dy > 127 set player_dy + player_dy 1
   endif
   // Apply flap
-  if a_pressed = 1 set player_speed_y 252 // -4
-  if b_pressed = 1 set player_speed_y 252 // -4
+  if a_pressed = 1 set player_dy 252 // -4
+  if b_pressed = 1 set player_dy 252 // -4
   // Apply current speed 
-  set player_y + player_y player_speed_y
+  set player_y + player_y player_dy
+  set enemy_x + enemy_x enemy_dx
+  set enemy_y + enemy_y enemy_dy 
   // This time unsigned nums are in our favour
   // If out of bounds, restart 
   if player_y > 240 goto start
