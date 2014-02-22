@@ -26,6 +26,7 @@ init_vars:
   set b_held 0
   set player_sprite_idx 107
   set enemy_sprite_idx 96
+  set score_sprite_idx 48
   set player_x 16
   set player_y 120
   set player_dy 0
@@ -33,6 +34,7 @@ init_vars:
   set enemy_y 120
   set enemy_dx 255 // -1
   set enemy_dy 0
+  set score 0
   set frame_count 0
   return
 
@@ -40,9 +42,18 @@ init_vars:
 render:
   // Select flapping or non-flapping sprite
   set player_sprite_idx + 107 << a_held 1 
-  // Skip sprite 0 - it's special and we might use it for scrolling later 
-  set $2003 4 // Location for sprite 1 (4 bytes per attrib entry)
+  // Sprite 0 is special and we might use it for scrolling later 
+  set $2003 0 // Location for sprite 0 (4 bytes per attrib entry)
+  
   // Every time we write to $2004 the address is incremented by 1 byte 
+  
+  // Ehhh will this work since it actually goes to Y+1?
+  // Maybe later skip entire first 8px/scanlines?
+  set $2004 8 // Y-1
+  set $2004 + score_sprite_idx score
+  set $2004 0
+  set $2004 240 // X
+
   // Render both player tiles
   set $2004 player_y // Y - actually Y-1, but impossible to render in 1st line
   set $2004 player_sprite_idx // Tile number
@@ -133,7 +144,10 @@ update:
   // if player.right < enemy.left goto no_collision
   if + player_x 15 < enemy_x goto no_collision
   // if enemy.right < player.left goto no_collision
-  if + enemy_x 15 < player_x goto no_collision 
+  if + enemy_x 15 < player_x then
+    set score + score 1 
+    goto no_collision
+  endif
   // if player.bottom < enemy.top goto no_collision
   if + player_y 7 < enemy_y goto no_collision
   // if enemy.bottom < player.top goto no_collision

@@ -1,11 +1,8 @@
 # FLAP-TYPE TODO
 
-- One enemy sprite moving + respawning
--- fixed X vel and random Y vel, Y pos depending on Y vel so it mostly goes
+- fixed X vel and random Y vel, Y pos depending on Y vel so it mostly goes
    through middle of screen?
-- Detect collision with enemy sprite
-- Detect pass enemy sprite safely
-- Count and render 'best score'
+- Render score > 9
 - Wave of enemy sprites moving
 - Draw background of some kind (have stars?)
 - Render background
