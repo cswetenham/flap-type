@@ -1,9 +1,8 @@
 # FLAP-TYPE TODO
 
-- fixed X vel and random Y vel, Y pos depending on Y vel so it mostly goes
-   through middle of screen?
+- Fix enemy y values, spread is wrong and some out of bounds
 - Render score > 9
-- Wave of enemy sprites moving
+- Wave of 4 enemy sprites moving together (delayed from each other by N frames)
 - Draw background of some kind (have stars?)
 - Render background
 - Scroll background

@@ -20,6 +20,7 @@ main_loop:
 
 //set default sprite location
 init_vars:
+  set seed 0
   set a_pressed 0
   set b_pressed 0
   set a_held 0
@@ -32,7 +33,7 @@ init_vars:
   set player_dy 0
   set enemy_x 240
   set enemy_y 120
-  set enemy_dx 255 // -1
+  set enemy_dx 253 // -3
   set enemy_dy 0
   set score 0
   set frame_count 0
@@ -126,6 +127,19 @@ update:
   // If out of bounds, restart 
   if player_y > 240 goto start
 
+  // Reset enemy if out of bounds
+  if enemy_x > 248 then
+    gosub rnd
+    set enemy_x 240
+    // vy = -3, -2, -1, 0, 0, +1, +2, +3
+    //    =  253, 254, 255, 0, 0, 1, 2, 3
+    set enemy_dy [enemy_dy_table >> seed 5]
+    // TODO argh not even spread what am I doing
+    // TODO some of these are out of bounds too
+    // y = 232, 195, 158, 121, 121, 84, 47, 8
+    set enemy_y [enemy_y_table >> seed 5]
+  endif
+
   // Okay, collision detection
 
   // Player box:
@@ -174,3 +188,7 @@ load_palette:
   set $2007 $0C // Set fg color 3 dark grey
   return
 
+enemy_y_table:
+  data  232, 195, 158, 121, 121, 84, 47, 8
+enemy_dy_table:
+  data 253, 254, 255, 0, 0, 1, 2, 3

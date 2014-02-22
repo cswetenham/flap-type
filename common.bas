@@ -27,3 +27,20 @@ vsync:
 	set $2006 0
 	set $2006 0
 	return
+
+// 8-bit PRNG from http://codebase64.org/doku.php?id=base:small_fast_8-bit_prng
+// Cycles 'seed' through all 256 values in random order
+rnd:
+  asm
+    lda seed
+    beq doEor
+    asl a
+    beq noEor ; If the input was $80, skip the EOR
+    bcc noEor
+  doEor:
+    eor #$1d
+  noEor:
+    sta seed
+  endasm
+  return
+
